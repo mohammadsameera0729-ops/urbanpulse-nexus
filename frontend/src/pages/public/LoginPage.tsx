@@ -37,8 +37,8 @@ export const LoginPage: React.FC = () => {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (!email || !email.includes('@')) {
-      setErrorMessage('Please enter a valid email address.');
+    if (!email || email.trim().length === 0) {
+      setErrorMessage('Please enter your email address or username.');
       return;
     }
 
@@ -242,12 +242,12 @@ export const LoginPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Email Address / Official Email */}
+              {/* Email Address / Official Email or Username */}
               <Input
-                label={selectedRole === 'citizen' ? 'Email Address' : 'Official Email'}
-                type="email"
+                label={selectedRole === 'citizen' ? 'Email Address or Username' : 'Official Email / Username'}
+                type="text"
                 required
-                placeholder="name@example.com"
+                placeholder="Email address or username"
                 leftIcon={<Mail className="w-4 h-4" />}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

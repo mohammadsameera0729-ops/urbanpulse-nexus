@@ -181,16 +181,17 @@ export const login = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { email, password } = req.body;
+    const rawIdentifier = req.body.email || req.body.username || req.body.identifier;
+    const { password } = req.body;
 
     /* -----------------------------------------
        Validate
     ----------------------------------------- */
 
-    if (!email || !password) {
+    if (!rawIdentifier || !password) {
       res.status(400).json({
         success: false,
-        message: "Please provide email and password",
+        message: "Please provide email or username and password",
       });
       return;
     }
@@ -199,12 +200,15 @@ export const login = async (
        Find user
     ----------------------------------------- */
 
-    const normalizedEmail = String(email)
+    const normalizedIdentifier = String(rawIdentifier)
       .toLowerCase()
       .trim();
 
     const user = await User.findOne({
-      email: normalizedEmail,
+      $or: [
+        { email: normalizedIdentifier },
+        { username: normalizedIdentifier }
+      ]
     });
 
     if (!user) {
