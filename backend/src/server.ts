@@ -9,9 +9,11 @@ const MONGODB_URI = process.env.MONGODB_URI as string;
 
 const startServer = async () => {
     try {
-        await mongoose.connect(MONGODB_URI);
+        await mongoose.connect(MONGODB_URI, {
+            dbName: "urbanpulse_nexus",
+        });
 
-        console.log("✅ MongoDB connected successfully");
+        console.log("✅ MongoDB connected successfully to database: urbanpulse_nexus");
 
         app.listen(PORT, () => {
             console.log(`🚦 UrbanPulse Nexus Backend running on port ${PORT}`);
