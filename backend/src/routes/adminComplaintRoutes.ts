@@ -568,4 +568,40 @@ router.get(
   }
 );
 
+/**
+ * DELETE /api/admin/complaints/:id
+ * Delete a specific complaint by ID (Admin only)
+ */
+router.delete(
+  "/:id",
+  authenticateToken,
+  requireAdmin,
+  async (req: AuthRequest, res) => {
+    try {
+      const { id } = req.params;
+      const complaint = await Complaint.findById(id);
+
+      if (!complaint) {
+        return res.status(404).json({
+          success: false,
+          message: "Complaint not found",
+        });
+      }
+
+      await Complaint.deleteOne({ _id: id });
+
+      return res.status(200).json({
+        success: true,
+        message: `Complaint "${complaint.title}" deleted successfully`,
+      });
+    } catch (error) {
+      console.error("DELETE admin complaint error:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to delete complaint",
+      });
+    }
+  }
+);
+
 export default router;
