@@ -7,6 +7,7 @@ import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { User, Role } from '../../types';
 import { UserPlus } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 export const UserManagementPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -26,7 +27,7 @@ export const UserManagementPage: React.FC = () => {
         throw new Error('Admin authentication token missing');
       }
 
-      const response = await fetch('http://localhost:5000/api/admin/users', {
+      const response = await fetch(`${API_BASE_URL}/admin/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ export const UserManagementPage: React.FC = () => {
         sessionStorage.getItem('urbanpulse_auth_token');
       if (!token) return;
 
-      const response = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/admin/users/${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 import { CameraRegistration, CameraFeedDTO } from '../types/cameraRegistry';
+import { API_BASE_URL as CENTRAL_API_BASE_URL } from '../config/api';
 
-const API_BASE_URL = 'http://localhost:5000/api/cameras';
+const API_BASE_URL = `${CENTRAL_API_BASE_URL}/cameras`;
 
 function getAuthHeader(token?: string | null): HeadersInit {
   const authToken =

@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '../../components/ui/Card';
+import { API_BASE_URL } from '../../config/api';
 import { Table } from '../../components/ui/Table';
 import { Button } from '../../components/ui/Button';
 import { 
@@ -135,8 +136,8 @@ export const DepartmentManagementPage: React.FC = () => {
         if (!token) return;
 
         const [compRes, staffRes] = await Promise.all([
-          fetch('http://localhost:5000/api/admin/complaints', { headers: { Authorization: `Bearer ${token}` } }),
-          fetch('http://localhost:5000/api/admin/complaints/staff', { headers: { Authorization: `Bearer ${token}` } })
+          fetch(`${API_BASE_URL}/admin/complaints`, { headers: { Authorization: `Bearer ${token}` } }),
+          fetch(`${API_BASE_URL}/admin/complaints/staff`, { headers: { Authorization: `Bearer ${token}` } })
         ]);
 
         const compData = await compRes.json();
@@ -213,7 +214,7 @@ export const DepartmentManagementPage: React.FC = () => {
           sessionStorage.getItem('urbanpulse_auth_token');
         if (!token) return;
         const response = await fetch(
-          'http://localhost:5000/api/admin/complaints/staff',
+          `${API_BASE_URL}/admin/complaints/staff`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

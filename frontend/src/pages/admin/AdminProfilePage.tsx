@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '../../components/ui/Card';
+import { API_BASE_URL } from '../../config/api';
 import { Button } from '../../components/ui/Button';
 import { 
   User, 
@@ -66,7 +67,7 @@ export const AdminProfilePage: React.FC = () => {
         }
 
         // Fetch real authenticated user profile from /api/auth/me
-        const res = await fetch('http://localhost:5000/api/auth/me', {
+        const res = await fetch(`${API_BASE_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

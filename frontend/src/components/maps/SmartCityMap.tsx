@@ -6,6 +6,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { getGoogleMapsUrl, getStatusBadgeStyle } from '../../utils/formatters';
 import { fetchTrafficObservations } from '../../services/trafficObservationService';
 import { TrafficObservation } from '../../types/trafficCongestion';
+import { API_BASE_URL } from '../../config/api';
 
 // Custom Marker Constructor for Traffic Monitoring Points
 const createTrafficMarkerIcon = (status: string) => {
@@ -138,12 +139,12 @@ export const SmartCityMap: React.FC<SmartCityMapProps> = ({
           headers['Authorization'] = `Bearer ${token}`;
         }
 
-        let response = await fetch('http://localhost:5000/api/admin/complaints', { method: 'GET', headers });
+        let response = await fetch(`${API_BASE_URL}/admin/complaints`, { method: 'GET', headers });
         if (!response.ok) {
-          response = await fetch('http://localhost:5000/api/staff/complaints', { method: 'GET', headers });
+          response = await fetch(`${API_BASE_URL}/staff/complaints`, { method: 'GET', headers });
         }
         if (!response.ok) {
-          response = await fetch('http://localhost:5000/api/complaints', { method: 'GET', headers });
+          response = await fetch(`${API_BASE_URL}/complaints`, { method: 'GET', headers });
         }
 
         if (response.ok) {

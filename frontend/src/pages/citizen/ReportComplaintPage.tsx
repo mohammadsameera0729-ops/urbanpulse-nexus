@@ -19,8 +19,9 @@ import {
   ArrowRight,
   RotateCcw,
 } from 'lucide-react';
+import { BASE_URL } from '../../config/api';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = BASE_URL;
 
 export const ReportComplaintPage: React.FC = () => {
   const navigate = useNavigate();
@@ -224,7 +225,7 @@ export const ReportComplaintPage: React.FC = () => {
         err.message?.toLowerCase().includes('fetch')
       ) {
         setError(
-          'Cannot connect to the backend. Make sure the backend is running on port 5000.'
+          'Cannot connect to the backend server. Please verify your connection or backend server status.'
         );
       } else {
         setError(

@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '../../components/ui/Card';
+import { API_BASE_URL } from '../../config/api';
 import { Button } from '../../components/ui/Button';
 import { 
   Bell, 
@@ -179,7 +180,7 @@ export const AdminNotificationsPage: React.FC = () => {
 
         if (!token) return;
 
-        const response = await fetch('http://localhost:5000/api/admin/complaints', {
+        const response = await fetch(`${API_BASE_URL}/admin/complaints`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

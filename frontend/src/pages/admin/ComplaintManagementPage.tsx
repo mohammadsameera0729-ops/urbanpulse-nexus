@@ -4,6 +4,7 @@ import { ADMIN_12_DEPARTMENTS } from '../../data/adminData';
 import { CITIZEN_COMPLAINT_CATEGORIES } from '../../data/citizenData';
 import { Complaint, ComplaintStatus, Priority } from '../../types';
 import { Table } from '../../components/ui/Table';
+import { API_BASE_URL } from '../../config/api';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { formatDate, openGoogleMaps } from '../../utils/formatters';
@@ -39,7 +40,7 @@ export const ComplaintManagementPage: React.FC = () => {
         throw new Error('Admin login token not found. Please log in again.');
       }
       const response = await fetch(
-        'http://localhost:5000/api/admin/complaints',
+        `${API_BASE_URL}/admin/complaints`,
         {
           method: 'GET',
           headers: {
@@ -124,7 +125,7 @@ export const ComplaintManagementPage: React.FC = () => {
 
         // Fetch real staff users
         const staffResponse = await fetch(
-          'http://localhost:5000/api/admin/complaints/staff',
+          `${API_BASE_URL}/admin/complaints/staff`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -279,7 +280,7 @@ const handleAssignSubmit = async (e: React.FormEvent) => {
     const complaintId = assignModalComplaint.id;
 
     const response = await fetch(
-      `http://localhost:5000/api/admin/complaints/${complaintId}`,
+      `${API_BASE_URL}/admin/complaints/${complaintId}`,
       {
         method: 'PATCH',
         headers: {
@@ -380,7 +381,7 @@ const handleUpdateSubmit = async (e: React.FormEvent) => {
     const complaintId = updateModalComplaint.id;
 
     const response = await fetch(
-      `http://localhost:5000/api/admin/complaints/${complaintId}`,
+      `${API_BASE_URL}/admin/complaints/${complaintId}`,
       {
         method: 'PATCH',
         headers: {
@@ -459,7 +460,7 @@ const handleCreateComplaintSubmit = async (e: React.FormEvent) => {
     }
 
     const response = await fetch(
-      'http://localhost:5000/api/admin/complaints',
+      `${API_BASE_URL}/admin/complaints`,
       {
         method: 'POST',
         headers: {

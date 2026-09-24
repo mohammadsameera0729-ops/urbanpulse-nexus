@@ -18,8 +18,9 @@ import {
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { SmartCityMap } from '../../components/maps/SmartCityMap';
+import { API_BASE_URL } from '../../config/api';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = API_BASE_URL;
 
 interface BackendComplaintActivity {
   _id?: string;

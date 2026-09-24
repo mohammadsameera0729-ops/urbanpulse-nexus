@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE_URL } from '../../config/api';
 import { Button } from '../../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Table } from '../../components/ui/Table';
@@ -100,7 +101,7 @@ export const AdminDashboardPage: React.FC = () => {
           headers['Authorization'] = `Bearer ${token}`;
         }
 
-        const response = await fetch('http://localhost:5000/api/admin/complaints', {
+        const response = await fetch(`${API_BASE_URL}/admin/complaints`, {
           headers,
         });
 
@@ -110,7 +111,7 @@ export const AdminDashboardPage: React.FC = () => {
           setComplaints(data.complaints);
         }
 
-        const statsResponse = await fetch('http://localhost:5000/api/admin/complaints/stats', {
+        const statsResponse = await fetch(`${API_BASE_URL}/admin/complaints/stats`, {
           headers,
         });
 

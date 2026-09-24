@@ -20,8 +20,9 @@ import {
   PhoneCall,
   Briefcase
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = API_BASE_URL;
 
 export const ProfilePage: React.FC = () => {
   const { user } = useAuth();

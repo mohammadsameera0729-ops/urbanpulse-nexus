@@ -1,5 +1,6 @@
 import { TrafficIncident } from '../types/trafficIncident';
 import { getGoogleMapsUrl } from '../utils/formatters';
+import { API_BASE_URL } from '../config/api';
 
 const FALLBACK_TRAFFIC_INCIDENTS: TrafficIncident[] = [
   {
@@ -95,7 +96,7 @@ export async function fetchTrafficIncidents(token?: string | null): Promise<Traf
   }
 
   try {
-    const res = await fetch('http://localhost:5000/api/traffic/incidents', {
+    const res = await fetch(`${API_BASE_URL}/traffic/incidents`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

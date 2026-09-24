@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE_URL } from '../../config/api';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Table } from '../../components/ui/Table';
@@ -60,7 +61,7 @@ export const StaffDashboardPage: React.FC = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/staff/complaints', {
+      const response = await fetch(`${API_BASE_URL}/staff/complaints`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +121,7 @@ export const StaffDashboardPage: React.FC = () => {
       const complaintId = complaint._id || complaint.id;
 
       const response = await fetch(
-        `http://localhost:5000/api/staff/complaints/${complaintId}`,
+        `${API_BASE_URL}/staff/complaints/${complaintId}`,
         {
           method: 'PATCH',
           headers: {

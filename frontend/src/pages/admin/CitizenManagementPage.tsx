@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '../../components/ui/Card';
+import { API_BASE_URL } from '../../config/api';
 import { Table } from '../../components/ui/Table';
 import { Button } from '../../components/ui/Button';
 import { 
@@ -174,7 +175,7 @@ export const CitizenManagementPage: React.FC = () => {
 
         if (!token) return;
 
-        const response = await fetch('http://localhost:5000/api/admin/complaints/citizens', {
+        const response = await fetch(`${API_BASE_URL}/admin/complaints/citizens`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

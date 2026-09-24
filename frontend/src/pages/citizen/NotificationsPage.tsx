@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NotificationItem } from '../../types';
+import { API_BASE_URL } from '../../config/api';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { 
@@ -38,7 +39,7 @@ export const NotificationsPage: React.FC = () => {
           throw new Error('Citizen authentication token missing');
         }
 
-        const response = await fetch('http://localhost:5000/api/complaints', {
+        const response = await fetch(`${API_BASE_URL}/complaints`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',

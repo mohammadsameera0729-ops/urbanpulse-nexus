@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE_URL } from '../../config/api';
 import { Button } from '../../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Table } from '../../components/ui/Table';
@@ -151,7 +152,7 @@ export const CitizenDashboardPage: React.FC = () => {
           return;
         }
 
-        const response = await fetch('http://localhost:5000/api/complaints', {
+        const response = await fetch(`${API_BASE_URL}/complaints`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

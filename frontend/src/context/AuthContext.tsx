@@ -30,7 +30,9 @@ const STORAGE_KEY_TOKEN = 'urbanpulse_auth_token';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_BASE_URL = 'http://localhost:5000/api/auth';
+import { API_BASE_URL as CENTRAL_API_BASE_URL } from '../config/api';
+
+const API_BASE_URL = `${CENTRAL_API_BASE_URL}/auth`;
 
 const mapBackendUserToFrontendUser = (backendUser: any): User => {
   return {

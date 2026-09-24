@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '../../components/ui/Card';
+import { API_BASE_URL } from '../../config/api';
 import { Table } from '../../components/ui/Table';
 import { Button } from '../../components/ui/Button';
 import { 
@@ -62,10 +63,10 @@ export const StaffManagementPage: React.FC = () => {
         }
 
         const [usersRes, compRes] = await Promise.all([
-          fetch('http://localhost:5000/api/admin/users', {
+          fetch(`${API_BASE_URL}/admin/users`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch('http://localhost:5000/api/admin/complaints', {
+          fetch(`${API_BASE_URL}/admin/complaints`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);

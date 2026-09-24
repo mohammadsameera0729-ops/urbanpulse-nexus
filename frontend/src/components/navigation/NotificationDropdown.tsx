@@ -3,6 +3,8 @@ import { Bell, Check, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { NotificationItem } from '../../types';
 
+import { API_BASE_URL } from '../../config/api';
+
 export const NotificationDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
@@ -18,7 +20,7 @@ export const NotificationDropdown: React.FC = () => {
           return;
         }
 
-        const response = await fetch('http://localhost:5000/api/complaints', {
+        const response = await fetch(`${API_BASE_URL}/complaints`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json();

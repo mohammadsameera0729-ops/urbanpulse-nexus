@@ -18,6 +18,7 @@ import { getStatusBadgeStyle, openGoogleMaps } from '../../utils/formatters';
 import { ComplaintStatus } from '../../types';
 
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE_URL } from '../../config/api';
 
 // Smooth Map Pan / FlyTo Helper Component
 const MapFlyTo: React.FC<{ center: [number, number]; zoom?: number }> = ({ center, zoom = 14 }) => {
@@ -128,10 +129,10 @@ export const InteractiveMapPage: React.FC = () => {
         }
 
         const endpoint = user?.role === 'admin'
-          ? 'http://localhost:5000/api/admin/complaints'
+          ? `${API_BASE_URL}/admin/complaints`
           : user?.role === 'staff'
-          ? 'http://localhost:5000/api/staff/complaints'
-          : 'http://localhost:5000/api/complaints';
+          ? `${API_BASE_URL}/staff/complaints`
+          : `${API_BASE_URL}/complaints`;
 
         const response = await fetch(endpoint, {
           method: 'GET',
