@@ -18,7 +18,12 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   authError: string | null;
-  login: (emailOrUsername: string, password?: string, targetRole?: Role, rememberMe?: boolean) => Promise<boolean>;
+  login: (
+    emailOrUsername: string,
+    password?: string,
+    targetRole?: Role,
+    rememberMe?: boolean
+  ) => Promise<{ success: boolean; user?: User; role?: Role; message?: string }>;
   register: (data: RegisterFormData) => Promise<boolean>;
   logout: () => void;
   switchRole: (role: Role) => void;
@@ -117,7 +122,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     password?: string,
     _targetRole?: Role,
     rememberMe: boolean = true
-  ): Promise<boolean> => {
+  ): Promise<{ success: boolean; user?: User; role?: Role; message?: string }> => {
     setAuthError(null);
     try {
       const normalizedInput = emailOrUsername.trim().toLowerCase();
@@ -139,7 +144,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (!response.ok || !result.success || !result.token) {
         const message = result.message || 'Authentication failed. Please check your credentials.';
         setAuthError(message);
-        return false;
+        return { success: false, message };
       }
 
       const realToken = result.token;
@@ -162,11 +167,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       storage.setItem(STORAGE_KEY_ROLE, mappedUser.role);
       storage.setItem(STORAGE_KEY_TOKEN, realToken);
 
-      return true;
+      return { success: true, user: mappedUser, role: mappedUser.role };
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Network error during login';
       setAuthError(message);
-      return false;
+      return { success: false, message };
     }
   };
 

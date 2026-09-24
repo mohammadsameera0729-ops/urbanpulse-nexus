@@ -50,19 +50,20 @@ export const LoginPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const success = await login(email, password, selectedRole, rememberMe);
+      const res = await login(email, password, selectedRole, rememberMe);
       setLoading(false);
 
-      if (success) {
-        if (selectedRole === 'admin') {
+      if (res.success && res.role) {
+        const actualRole = res.role;
+        if (actualRole === 'admin') {
           navigate('/admin/dashboard', { replace: true });
-        } else if (selectedRole === 'staff') {
+        } else if (actualRole === 'staff') {
           navigate('/staff/dashboard', { replace: true });
         } else {
           navigate('/citizen/dashboard', { replace: true });
         }
       } else {
-        setErrorMessage(authError || 'Authentication failed. Please check your credentials.');
+        setErrorMessage(res.message || authError || 'Authentication failed. Please check your credentials.');
       }
     } catch (err) {
       setLoading(false);
