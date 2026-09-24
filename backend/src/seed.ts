@@ -30,7 +30,7 @@ const seedUsers = [
 async function seed() {
   try {
     console.log("Connecting to MongoDB for seeding...");
-    await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(MONGODB_URI, { dbName: "urbanpulse_nexus" });
     console.log("Connected to MongoDB");
 
     for (const seedUser of seedUsers) {

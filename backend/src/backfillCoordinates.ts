@@ -10,7 +10,7 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/urbanp
 async function runBackfill() {
   try {
     console.log("Connecting to MongoDB...");
-    await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(MONGODB_URI, { dbName: "urbanpulse_nexus" });
     console.log("Connected to MongoDB");
 
     const unmappedComplaints = await Complaint.find({
