@@ -4,7 +4,6 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import authRoutes from "./routes/authRoutes";
-import testRoutes from "./routes/testRoutes";
 import complaintRoutes from "./routes/complaintRoutes";
 import adminComplaintRoutes from "./routes/adminComplaintRoutes";
 import staffComplaintRoutes from "./routes/staffComplaintRoutes";
@@ -43,7 +42,6 @@ app.use(express.json());
 /* ---------------- ROUTES ---------------- */
 
 app.use("/api/auth", authRoutes);
-app.use("/api/test", testRoutes);
 app.use("/api/complaints", complaintRoutes);
 app.use("/api/admin/complaints", adminComplaintRoutes);
 app.use("/api/staff/complaints", staffComplaintRoutes);
