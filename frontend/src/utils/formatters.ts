@@ -110,3 +110,75 @@ export const openGoogleMaps = (
   }
 };
 
+// Known real geographical coordinates for Vijayawada sub-localities / landmarks
+const VIJAYAWADA_FRONTEND_LOCALITIES: Array<{ keywords: string[]; lat: number; lng: number }> = [
+  { keywords: ['dabakotlu', 'daba kotlu'], lat: 16.5385, lng: 80.6260 },
+  { keywords: ['benz circle', 'benzcircle', 'benz'], lat: 16.5016, lng: 80.6436 },
+  { keywords: ['singh nagar', 'singhnagar', 'ajit singh nagar'], lat: 16.5360, lng: 80.6300 },
+  { keywords: ['prakash nagar', 'prakashnagar'], lat: 16.5265, lng: 80.6275 },
+  { keywords: ['ramavarappadu', 'ramvarpadu', 'ring road'], lat: 16.5280, lng: 80.6800 },
+  { keywords: ['governorpet', 'governor pet'], lat: 16.5115, lng: 80.6235 },
+  { keywords: ['moghalrajpuram', 'mogalrajpuram', 'jammi chettu'], lat: 16.5050, lng: 80.6500 },
+  { keywords: ['labbipet', 'labbi pet'], lat: 16.5040, lng: 80.6370 },
+  { keywords: ['auto nagar', 'autonagar', '100 feet road'], lat: 16.4980, lng: 80.6720 },
+  { keywords: ['gunadala', 'esi hospital'], lat: 16.5260, lng: 80.6610 },
+  { keywords: ['satyanarayanapuram', 'satyanarayana puram'], lat: 16.5230, lng: 80.6280 },
+  { keywords: ['bhavanipuram', 'bhavani puram', 'swathi theatre'], lat: 16.5280, lng: 80.5900 },
+  { keywords: ['patamata', 'patamata lanka', 'high school road'], lat: 16.4950, lng: 80.6540 },
+  { keywords: ['one town', 'onetown', 'kaleswara rao', 'kr market', 'tarapet'], lat: 16.5160, lng: 80.6120 },
+  { keywords: ['two town', 'twotown', 'hanumanpet'], lat: 16.5180, lng: 80.6200 },
+  { keywords: ['kanuru', 'tadigadapa'], lat: 16.4880, lng: 80.6850 },
+  { keywords: ['gollapudi'], lat: 16.5450, lng: 80.5750 },
+  { keywords: ['gandhinagar', 'gandhi nagar', 'music college'], lat: 16.5170, lng: 80.6300 },
+  { keywords: ['eluru road'], lat: 16.5180, lng: 80.6350 },
+  { keywords: ['mg road', 'bandar road'], lat: 16.5030, lng: 80.6400 },
+  { keywords: ['tadepalli', 'manipal hospital'], lat: 16.4840, lng: 80.6050 },
+  { keywords: ['enikepadu', 'prasadampadu'], lat: 16.5250, lng: 80.7020 },
+  { keywords: ['chuttugunta'], lat: 16.5150, lng: 80.6400 },
+  { keywords: ['payakapuram'], lat: 16.5430, lng: 80.6320 },
+  { keywords: ['machavaram'], lat: 16.5120, lng: 80.6480 },
+  { keywords: ['suryaraopet', 'surayaraopet'], lat: 16.5100, lng: 80.6300 },
+  { keywords: ['kedareswarapet', 'kedareswara pet'], lat: 16.5220, lng: 80.6250 },
+  { keywords: ['vidyadharapuram'], lat: 16.5320, lng: 80.6000 },
+  { keywords: ['christurajupuram', 'chisturajupuram'], lat: 16.5020, lng: 80.6450 },
+  { keywords: ['ntr circle', 'ntr statue'], lat: 16.4950, lng: 80.6520 },
+  { keywords: ['prakasam barrage'], lat: 16.5060, lng: 80.6050 },
+  { keywords: ['kanaka durga', 'durga temple', 'indrakeeladri'], lat: 16.5150, lng: 80.6080 },
+  { keywords: ['railway station', 'station road'], lat: 16.5175, lng: 80.6200 },
+  { keywords: ['bus stand', 'pnbs', 'pandit nehru'], lat: 16.5080, lng: 80.6170 },
+  { keywords: ['control room', 'police control room'], lat: 16.5110, lng: 80.6200 },
+  { keywords: ['pvp square', 'trendset', 'icon mall'], lat: 16.5035, lng: 80.6385 },
+  { keywords: ['ramesh hospital'], lat: 16.5010, lng: 80.6550 },
+  { keywords: ['poranki', 'kamineni'], lat: 16.4780, lng: 80.6980 },
+  { keywords: ['siddhartha', 'vr siddhartha', 'pb siddhartha'], lat: 16.4880, lng: 80.6550 },
+  { keywords: ['gurrnanak', 'guru nanak'], lat: 16.4990, lng: 80.6580 },
+];
+
+export const resolveVijayawadaLocationFrontend = (locationText?: string): { lat: number; lng: number } => {
+  if (!locationText || typeof locationText !== 'string' || !locationText.trim()) {
+    return { lat: 16.5062, lng: 80.6480 };
+  }
+
+  const clean = locationText.trim().toLowerCase();
+
+  for (const item of VIJAYAWADA_FRONTEND_LOCALITIES) {
+    if (item.keywords.some((kw) => clean.includes(kw))) {
+      return { lat: item.lat, lng: item.lng };
+    }
+  }
+
+  // Deterministic fallback for any Vijayawada location string
+  let hash = 0;
+  for (let i = 0; i < clean.length; i++) {
+    hash = (hash << 5) - hash + clean.charCodeAt(i);
+    hash |= 0;
+  }
+  const latOffset = ((Math.abs(hash) % 100) - 50) * 0.0001;
+  const lngOffset = ((Math.abs(hash >> 3) % 100) - 50) * 0.0001;
+
+  return {
+    lat: Number((16.5062 + latOffset).toFixed(6)),
+    lng: Number((80.6480 + lngOffset).toFixed(6)),
+  };
+};
+

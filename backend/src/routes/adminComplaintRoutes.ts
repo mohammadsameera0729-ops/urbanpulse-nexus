@@ -7,7 +7,7 @@ import {
   AuthRequest,
 } from "../middleware/authMiddleware";
 import { requireAdmin } from "../middleware/adminMiddleware";
-import { resolveVijayawadaCoordinates } from "./complaintRoutes";
+import { resolveVijayawadaCoordinates, isValidVijayawadaCoordinates } from "./complaintRoutes";
 
 const router = Router();
 
@@ -341,6 +341,8 @@ router.post(
         department,
         priority,
         location,
+        latitude,
+        longitude,
       } = req.body;
 
       if (!citizenName?.trim()) {
@@ -410,16 +412,22 @@ router.post(
 
       const adminUser = await User.findById(req.user?.userId);
       const adminAuthor = adminUser?.fullName || "Admin User";
+      let resolvedLat = latitude;
+      let resolvedLng = longitude;
 
-      const coordinates = await resolveVijayawadaCoordinates(location.trim());
+      if (!isValidVijayawadaCoordinates(resolvedLat, resolvedLng)) {
+        const coordinates = await resolveVijayawadaCoordinates(location.trim());
+        resolvedLat = coordinates.latitude;
+        resolvedLng = coordinates.longitude;
+      }
 
       const complaint = await Complaint.create({
         title: title.trim(),
         description: description.trim(),
         category: category.trim(),
         location: location.trim(),
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude,
+        latitude: resolvedLat,
+        longitude: resolvedLng,
         priority: finalPriority,
         status: "pending",
         assignedDepartment: department || "Unassigned",

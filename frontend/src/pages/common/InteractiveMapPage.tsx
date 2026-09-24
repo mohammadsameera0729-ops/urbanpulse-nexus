@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { getStatusBadgeStyle, openGoogleMaps } from '../../utils/formatters';
+import { getStatusBadgeStyle, openGoogleMaps, resolveVijayawadaLocationFrontend } from '../../utils/formatters';
 import { ComplaintStatus } from '../../types';
 
 import { useAuth } from '../../context/AuthContext';
@@ -153,10 +153,11 @@ export const InteractiveMapPage: React.FC = () => {
               const hasObjLat = typeof item.location?.lat === 'number' && !isNaN(item.location.lat) && item.location.lat !== 0;
               const hasObjLng = typeof item.location?.lng === 'number' && !isNaN(item.location.lng) && item.location.lng !== 0;
 
-              const lat: number | undefined = hasStoredLat ? item.latitude : (hasObjLat ? item.location.lat : undefined);
-              const lng: number | undefined = hasStoredLng ? item.longitude : (hasObjLng ? item.location.lng : undefined);
+              const resolvedFallback = resolveVijayawadaLocationFrontend(locStr);
+              const lat: number = hasStoredLat ? item.latitude : (hasObjLat ? item.location.lat : resolvedFallback.lat);
+              const lng: number = hasStoredLng ? item.longitude : (hasObjLng ? item.location.lng : resolvedFallback.lng);
 
-              const hasValidCoords = lat !== undefined && lng !== undefined;
+              const hasValidCoords = typeof lat === 'number' && typeof lng === 'number' && !isNaN(lat) && !isNaN(lng);
 
               const validStatus: ComplaintStatus = (item.status && ['pending', 'in_progress', 'under_review', 'resolved', 'rejected'].includes(item.status))
                 ? (item.status as ComplaintStatus)

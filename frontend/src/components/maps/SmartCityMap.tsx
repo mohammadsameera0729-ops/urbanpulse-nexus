@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { ExternalLink, RotateCcw } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { getGoogleMapsUrl, getStatusBadgeStyle } from '../../utils/formatters';
+import { getGoogleMapsUrl, getStatusBadgeStyle, resolveVijayawadaLocationFrontend } from '../../utils/formatters';
 import { fetchTrafficObservations } from '../../services/trafficObservationService';
 import { TrafficObservation } from '../../types/trafficCongestion';
 import { API_BASE_URL } from '../../config/api';
@@ -279,14 +279,18 @@ export const SmartCityMap: React.FC<SmartCityMapProps> = ({
             const hasObjLat = typeof item.location?.lat === 'number' && !isNaN(item.location.lat) && item.location.lat !== 0;
             const hasObjLng = typeof item.location?.lng === 'number' && !isNaN(item.location.lng) && item.location.lng !== 0;
 
-            let coords: [number, number] | null = null;
+            let coords: [number, number] = [0, 0];
             if (hasLat && hasLng) {
               coords = [item.latitude, item.longitude];
             } else if (hasObjLat && hasObjLng) {
               coords = [item.location.lat, item.location.lng];
+            } else {
+              const locStr = typeof item.location === 'string'
+                ? item.location
+                : (item.location?.address || item.location?.name || 'Vijayawada');
+              const res = resolveVijayawadaLocationFrontend(locStr);
+              coords = [res.lat, res.lng];
             }
-
-            if (!coords) return null;
 
             const priority = item.priority || 'medium';
             const icon = priority === 'critical' ? redIcon : priority === 'high' ? amberIcon : blueIcon;

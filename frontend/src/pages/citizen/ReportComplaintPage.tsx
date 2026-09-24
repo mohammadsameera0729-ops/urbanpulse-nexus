@@ -158,6 +158,8 @@ export const ReportComplaintPage: React.FC = () => {
             location: address.trim(),
             priority: priority,
             assignedDepartment: autoDepartment,
+            latitude: coords.lat,
+            longitude: coords.lng,
           }),
         }
       );
